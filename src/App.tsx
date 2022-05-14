@@ -1,5 +1,6 @@
 import styled, { createGlobalStyle } from "styled-components";
 import Flower from "./flowers/Flower";
+import { range } from "./utils/util";
 
 // Next step: Create repo
 
@@ -19,7 +20,7 @@ const Background = styled.div`
   overflow: hidden;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
 `;
 
 function App() {
@@ -27,7 +28,9 @@ function App() {
     <>
       <GlobalStyle />
       <Background>
-        <Flower numPetals={3} />
+        {range(3, 8).map((numPetals) => (
+          <Flower size={10} numPetals={numPetals} />
+        ))}
       </Background>
     </>
   );

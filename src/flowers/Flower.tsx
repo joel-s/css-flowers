@@ -13,9 +13,10 @@ const Container = styled.div<ContainerProps>`
 `;
 
 interface PetalProps {
-  size: number;
   angle: number;
+  size: number;
   numPetals: number;
+  petalShape: string;
 }
 
 const Petal = styled.div<PetalProps>`
@@ -31,15 +32,26 @@ const Petal = styled.div<PetalProps>`
     scaleX(${(props) => Math.tan(Math.PI / props.numPetals)}) rotateZ(45deg);
 `;
 
-export default function Flower({
-  numPetals,
-}: {
+interface FlowerProps {
+  size: number;
   numPetals: number;
-}): JSX.Element {
+  petalShape?: string;
+}
+
+export default function Flower({
+  size,
+  numPetals,
+  petalShape = "0 100% 0 100%",
+}: FlowerProps): JSX.Element {
   return (
-    <Container size={20}>
+    <Container size={size}>
       {range(0, numPetals - 1).map((i) => (
-        <Petal size={10} angle={(i * 360) / numPetals} numPetals={numPetals} />
+        <Petal
+          size={size / 2}
+          angle={(i * 360) / numPetals}
+          numPetals={numPetals}
+          petalShape={petalShape}
+        />
       ))}
     </Container>
   );

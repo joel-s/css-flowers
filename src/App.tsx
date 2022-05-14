@@ -1,26 +1,22 @@
 import styled, { createGlobalStyle } from "styled-components";
-import Flower from "./flowers/Flower";
-import { range } from "./utils/util";
+import Garland from "./flowers/Garland";
 
 // Next step: Create repo
 
 const GlobalStyle = createGlobalStyle`
   html, body {
     background-color: hsl(100, 100%, 0%);
-    overflow: hidden;
   }
 `;
 
 const Background = styled.div`
-  position: absolute;
+  /* position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
+  overflow: hidden; */
+  padding: 10vmin 0;
 `;
 
 function App() {
@@ -28,9 +24,13 @@ function App() {
     <>
       <GlobalStyle />
       <Background>
-        {range(3, 8).map((numPetals) => (
-          <Flower size={10} numPetals={numPetals} />
-        ))}
+        <Garland petalShape="0 100% 0 100%" />
+        <Garland petalShape="0 50% 50% 50%" />
+        <Garland petalShape="50% 50% 0 50%" />
+        <Garland petalShape="100% 0 0 0" />
+        <Garland petalShape="0 0 100% 0" />
+        <Garland petalShape="0 0 50% 0" />
+        <Garland petalShape="0 50% 50% 0" />
       </Background>
     </>
   );

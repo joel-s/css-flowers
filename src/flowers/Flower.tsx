@@ -1,4 +1,3 @@
-import { transcode } from "buffer";
 import styled from "styled-components";
 import { range } from "../utils/util";
 
@@ -24,7 +23,7 @@ const Petal = styled.div<PetalProps>`
   top: 0;
   left: 0;
   background-color: hsla(0, 80%, 80%, 0.9);
-  border-radius: 0 100% 0 100%;
+  border-radius: ${(props) => props.petalShape};
   width: ${(props) => props.size}vmin;
   height: ${(props) => props.size}vmin;
   transform-origin: bottom right;
@@ -45,7 +44,7 @@ export default function Flower({
 }: FlowerProps): JSX.Element {
   return (
     <Container size={size}>
-      {range(0, numPetals - 1).map((i) => (
+      {range(0, numPetals).map((i) => (
         <Petal
           size={size / 2}
           angle={(i * 360) / numPetals}

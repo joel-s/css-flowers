@@ -1,8 +1,6 @@
 import styled, { createGlobalStyle } from "styled-components";
 import Garland from "./flowers/Garland";
 
-// Next step: Create repo
-
 const GlobalStyle = createGlobalStyle`
   html, body {
     background-color: hsl(100, 100%, 0%);

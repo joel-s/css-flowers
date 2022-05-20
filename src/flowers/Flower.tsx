@@ -1,6 +1,11 @@
 import styled, { keyframes } from "styled-components";
 import { range } from "../utils/util";
 
+// Glowing text:
+// text-shadow: 0px 0px 40px white,
+// 0px 0px 8px white,
+// 0px 0px 16px white;
+
 const varyOpacity = keyframes`
   from {
     opacity: 100%;
@@ -39,23 +44,48 @@ interface PetalProps {
   petalShape: string;
 }
 
-const PetalBackground = styled.div<PetalProps>`
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: white;
-  border-radius: ${(props) => props.petalShape};
-  width: ${(props) => props.size}vmin;
-  height: ${(props) => props.size}vmin;
-  transform-origin: bottom right;
-  transform: rotateZ(${(props) => props.angle}deg) translateY(-1vmin)
-    scaleX(${(props) => Math.tan(Math.PI / props.numPetals)}) rotateZ(45deg);
-`;
+export function Petal({
+  angle,
+  size,
+  numPetals,
+  petalShape,
+}: PetalProps): JSX.Element {
+  const spin = keyframes`
+    from {
+      transform: rotateZ(0deg) translateY(-1vmin)
+        scaleX(${Math.tan(Math.PI / numPetals)}) rotateZ(45deg);
+    }
+    to {
+      transform: rotateZ(${angle}deg) translateY(-1vmin)
+        scaleX(${Math.tan(Math.PI / numPetals)}) rotateZ(45deg);
+    }
+  `;
 
-const Petal = styled(PetalBackground)`
-  animation: ${varyColor} 5.5s ease infinite -${(props) => props.numPetals}s alternate-reverse,
-    ${varyOpacity} 4s ease infinite alternate-reverse; ;
-`;
+  const PetalBackground = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+    border-radius: ${petalShape};
+    width: ${size}vmin;
+    height: ${size}vmin;
+    transform-origin: bottom right;
+    animation: ${spin} 3s cubic-bezier(0.6, 0.015, 0.4, 1.35) 1s both;
+  `;
+
+  const PetalForegroundInner = styled.div`
+    height: 100%;
+    border-radius: ${petalShape};
+    animation: ${varyColor} 5.5s ease infinite -${numPetals}s alternate-reverse,
+      ${varyOpacity} 4s ease infinite alternate-reverse;
+  `;
+
+  return (
+    <PetalBackground>
+      <PetalForegroundInner />
+    </PetalBackground>
+  );
+}
 
 interface FlowerProps {
   size: number;
@@ -71,20 +101,12 @@ export default function Flower({
   return (
     <FlowerContainer size={size}>
       {range(0, numPetals).map((i) => (
-        <>
-          <PetalBackground
-            size={size / 2}
-            angle={(i * 360) / numPetals}
-            numPetals={numPetals}
-            petalShape={petalShape}
-          />
-          <Petal
-            size={size / 2}
-            angle={(i * 360) / numPetals}
-            numPetals={numPetals}
-            petalShape={petalShape}
-          />
-        </>
+        <Petal
+          size={size / 2}
+          angle={(i * 360) / numPetals}
+          numPetals={numPetals}
+          petalShape={petalShape}
+        />
       ))}
     </FlowerContainer>
   );

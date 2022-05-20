@@ -25,7 +25,6 @@ function App() {
         <Garland petalShape="0 100% 0 100%" />
         <Garland petalShape="0 50% 50% 50%" />
         <Garland petalShape="50% 50% 0 50%" />
-        <Garland petalShape="100% 0 0 0" />
         <Garland petalShape="0 0 100% 0" />
         <Garland petalShape="0 0 50% 0" />
         <Garland petalShape="0 50% 50% 0" />

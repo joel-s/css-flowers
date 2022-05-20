@@ -26,6 +26,7 @@ interface PetalProps {
   size: number;
   numPetals: number;
   petalShape: string;
+  openDelay: number; // seconds
 }
 
 export default function Petal({
@@ -33,10 +34,11 @@ export default function Petal({
   size,
   numPetals,
   petalShape,
+  openDelay,
 }: PetalProps): JSX.Element {
   const spin = keyframes`
     from {
-      transform: rotateZ(0deg) translateY(-1vmin)
+      transform: rotateZ(180deg) translateY(-1vmin)
         scaleX(${Math.tan(Math.PI / numPetals)}) rotateZ(45deg);
     }
     to {
@@ -54,7 +56,8 @@ export default function Petal({
     width: ${size}vmin;
     height: ${size}vmin;
     transform-origin: bottom right;
-    animation: ${spin} 1s cubic-bezier(0.6, 0, 0.4, 1.2) 1s both;
+    animation: ${spin} 1s cubic-bezier(0.6, 0, 0.4, 1.2)
+      ${openDelay + Math.random() * 5}s both;
   `;
 
   const PetalForegroundInner = styled.div`

@@ -27,6 +27,7 @@ interface PetalProps {
   numPetals: number;
   petalShape: string;
   openDelay: number; // seconds
+  startAngle: number;
 }
 
 export default function Petal({
@@ -35,10 +36,11 @@ export default function Petal({
   numPetals,
   petalShape,
   openDelay,
+  startAngle,
 }: PetalProps): JSX.Element {
   const spin = keyframes`
     from {
-      transform: rotateZ(180deg) translateY(-1vmin)
+      transform: rotateZ(${startAngle}deg) translateY(-1vmin)
         scaleX(${Math.tan(Math.PI / numPetals)}) rotateZ(45deg);
     }
     to {

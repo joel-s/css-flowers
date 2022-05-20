@@ -29,6 +29,12 @@ export default function Flower({
   petalShape = "0 100% 0 100%",
 }: FlowerProps): JSX.Element {
   const delay = Math.random() * 15;
+  const baseAngle = 360 / numPetals;
+  let startAngle = 180;
+  if (numPetals % 2) {
+    startAngle =
+      Math.random() > 0.5 ? 180 + baseAngle / 2 : 180 - baseAngle / 2;
+  }
   return (
     <FlowerContainer size={size}>
       {range(0, numPetals).map((i) => (
@@ -38,6 +44,7 @@ export default function Flower({
           numPetals={numPetals}
           petalShape={petalShape}
           openDelay={delay}
+          startAngle={startAngle}
         />
       ))}
     </FlowerContainer>

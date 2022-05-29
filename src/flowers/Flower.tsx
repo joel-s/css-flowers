@@ -4,6 +4,20 @@ import { range } from "../utils/util";
 import FlowerCenter from "./FlowerCenter";
 import Petal from "./Petal";
 
+const FlowerAreaContainer = styled.div`
+  position: relative;
+  flex-grow: 1;
+`;
+
+const FlowerContainer = styled.div<{ size: number }>`
+  height: ${(props) => props.size}vmin;
+  width: ${(props) => props.size}vmin;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
 interface FlowerProps {
   size: number;
   numPetals: number;
@@ -17,30 +31,9 @@ export default function Flower({
 }: FlowerProps): JSX.Element {
   const [animated, setAnimated] = useState(false);
 
-  const baseAngle = 360 / numPetals;
-  let startAngle = 180;
-  if (numPetals % 2) {
-    startAngle =
-      Math.random() > 0.5 ? 180 + baseAngle / 2 : 180 - baseAngle / 2;
-  }
-
-  const FlowerAreaContainer = styled.div`
-    position: relative;
-    flex-grow: 1;
-  `;
-
-  const FlowerContainer = styled.div`
-    height: ${size}vmin;
-    width: ${size}vmin;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  `;
-
   return (
     <FlowerAreaContainer onMouseEnter={() => setAnimated(true)}>
-      <FlowerContainer>
+      <FlowerContainer size={size}>
         <FlowerCenter size={size / 3} animated={animated} />
         {animated && (
           <>
@@ -50,6 +43,7 @@ export default function Flower({
                 angle={(i * 360) / numPetals}
                 numPetals={numPetals}
                 petalShape={petalShape}
+                key={i}
               />
             ))}
           </>

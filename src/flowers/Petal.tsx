@@ -11,51 +11,60 @@ interface PetalProps {
   petalShape: string;
 }
 
+const containerTransformKeyframes = (
+  angle: number,
+  numPetals: number
+) => keyframes`
+  from {
+    transform: scale(0) rotateZ(${angle}deg) translateY(-1vmin)
+      scaleX(${Math.tan(Math.PI / numPetals)}) rotateZ(45deg);
+  }
+  to {
+    transform: scale(1) rotateZ(${angle}deg) translateY(-1vmin)
+      scaleX(${Math.tan(Math.PI / numPetals)}) rotateZ(45deg);
+  }
+`;
+
+const PetalContainer = styled.div<{
+  size: number;
+  angle: number;
+  numPetals: number;
+}>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: ${(props) => props.size}vmin;
+  height: ${(props) => props.size}vmin;
+  transform-origin: bottom right;
+  animation: ${(props) =>
+      containerTransformKeyframes(props.angle, props.numPetals)}
+    1s cubic-bezier(0.6, 0, 0.4, 1.2)
+    ${(props) => (props.angle * props.numPetals) / 2000}s both;
+`;
+
+const PetalBackground = styled.div<{ size: number; petalShape: string }>`
+  width: ${(props) => props.size}vmin;
+  height: ${(props) => props.size}vmin;
+  border-radius: ${(props) => props.petalShape};
+  ${backgroundColorAnimation}
+`;
+
+const PetalForeground = styled.div<{ petalShape: string }>`
+  height: 100%;
+  border-radius: ${(props) => props.petalShape};
+  ${foregroundOpacityAndColorAnimation}
+`;
+
 export default function Petal({
   angle,
   size,
   numPetals,
   petalShape,
-}: PetalProps): JSX.Element | null {
-  const containerTransformKeyframes = keyframes`
-    from {
-      transform: scale(0) rotateZ(${angle}deg) translateY(-1vmin)
-        scaleX(${Math.tan(Math.PI / numPetals)}) rotateZ(45deg);
-    }
-    to {
-      transform: scale(1) rotateZ(${angle}deg) translateY(-1vmin)
-        scaleX(${Math.tan(Math.PI / numPetals)}) rotateZ(45deg);
-    }
-  `;
-
-  const PetalContainer = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: ${size}vmin;
-    height: ${size}vmin;
-    transform-origin: bottom right;
-    animation: ${containerTransformKeyframes} 1s cubic-bezier(0.6, 0, 0.4, 1.2)
-      ${(angle * numPetals) / 2000}s both;
-  `;
-
-  const PetalBackground = styled.div`
-    border-radius: ${petalShape};
-    width: ${size}vmin;
-    height: ${size}vmin;
-    ${backgroundColorAnimation}
-  `;
-
-  const PetalForeground = styled.div`
-    height: 100%;
-    border-radius: ${petalShape};
-    ${foregroundOpacityAndColorAnimation}
-  `;
-
+}: PetalProps): JSX.Element {
   return (
-    <PetalContainer>
-      <PetalBackground>
-        <PetalForeground />
+    <PetalContainer size={size} angle={angle} numPetals={numPetals}>
+      <PetalBackground size={size} petalShape={petalShape}>
+        <PetalForeground petalShape={petalShape} />
       </PetalBackground>
     </PetalContainer>
   );

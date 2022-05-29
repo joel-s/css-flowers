@@ -12,7 +12,7 @@ const Background = styled.div`
   padding: 10vmin;
 `;
 
-const basicShapeArray = [
+const shapeArray = [
   "0 100% 0 100%",
   "0 50% 50% 50%",
   "50% 50% 0 50%",
@@ -21,15 +21,13 @@ const basicShapeArray = [
   "0 50% 50% 0",
 ];
 
-const shapeArray = repeatArray(basicShapeArray, 2);
-
 function App() {
   return (
     <>
       <GlobalStyle />
       <Background>
         {shapeArray.map((shape, i) => (
-          <Garland petalShape="0 100% 0 100%" key={i} />
+          <Garland petalShape={shape} key={i} />
         ))}
       </Background>
     </>

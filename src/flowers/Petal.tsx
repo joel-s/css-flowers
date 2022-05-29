@@ -1,43 +1,14 @@
-import styled, { keyframes, css } from "styled-components";
-
-const varyBackgroundColor = keyframes`
-0%, 50% {
-  background-color: black;
-}
-50%, 100% {
-  background-color: white;
-}
-`;
-
-const varyForegroundOpacity = keyframes`
-  0% {
-    opacity: 100%;
-  }
-  100% {
-    opacity: 40%;
-  }
-`;
-
-const varyForegroundColor = keyframes`
-  0% {
-    background-color: hsl(0, 60%, 50%);
-  }
-  50% {
-    background-color: hsl(285, 60%, 50%);
-  }
-  100% {
-    background-color: hsl(210, 60%, 50%);
-  }
-`;
+import styled, { keyframes } from "styled-components";
+import {
+  backgroundColorAnimation,
+  foregroundOpacityAndColorAnimation,
+} from "./FlowerColorAnimations";
 
 interface PetalProps {
   angle: number;
   size: number;
   numPetals: number;
   petalShape: string;
-  openDelay: number; // seconds
-  startAngle: number;
-  animated: boolean;
 }
 
 export default function Petal({
@@ -45,9 +16,6 @@ export default function Petal({
   size,
   numPetals,
   petalShape,
-  openDelay,
-  startAngle,
-  animated,
 }: PetalProps): JSX.Element | null {
   const containerTransformKeyframes = keyframes`
     from {
@@ -75,28 +43,19 @@ export default function Petal({
     border-radius: ${petalShape};
     width: ${size}vmin;
     height: ${size}vmin;
-    /* animation is identical to flower center background animation */
-    /* 1st animation takes twice as long as varyForegroundOpacity animation    */
-    animation: ${varyBackgroundColor} 8s ease infinite alternate-reverse;
+    ${backgroundColorAnimation}
   `;
 
-  const PetalForegroundInner = styled.div`
+  const PetalForeground = styled.div`
     height: 100%;
     border-radius: ${petalShape};
-    /* both animations are identical to flower center foreground animation */
-    /* 1st animation takes half as long as varyBackgroundColor animation */
-    animation: ${varyForegroundOpacity} 4s ease infinite alternate-reverse,
-      ${varyForegroundColor} 5.5s ease infinite alternate-reverse;
+    ${foregroundOpacityAndColorAnimation}
   `;
-
-  if (!animated) {
-    return null;
-  }
 
   return (
     <PetalContainer>
       <PetalBackground>
-        <PetalForegroundInner />
+        <PetalForeground />
       </PetalBackground>
     </PetalContainer>
   );

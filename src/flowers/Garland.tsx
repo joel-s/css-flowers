@@ -4,21 +4,29 @@ import { range } from "../utils/util";
 
 const GarlandDiv = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: row;
+  align-items: stretch;
   justify-content: space-evenly;
   width: 100%;
-  height: 20vmin;
+  height: 10vmin;
 `;
 
 interface GarlandProps {
   petalShape: string;
 }
 
+const numPetalsArray = [...range(5, 11), ...range(11, 5, -1)];
+
 export default function Garland({ petalShape }: GarlandProps) {
   return (
     <GarlandDiv>
-      {range(3, 9).map((numPetals) => (
-        <Flower size={7} numPetals={numPetals} petalShape={petalShape} />
+      {numPetalsArray.map((numPetals, index) => (
+        <Flower
+          size={4}
+          numPetals={numPetals}
+          petalShape={petalShape}
+          key={index}
+        />
       ))}
     </GarlandDiv>
   );

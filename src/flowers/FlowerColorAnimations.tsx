@@ -2,7 +2,7 @@ import { keyframes, css } from "styled-components";
 
 const varyBackgroundColor = keyframes`
 0%, 50% {
-  background-color: black;
+  background-color: darkslateblue;
 }
 50%, 100% {
   background-color: white;
@@ -14,7 +14,7 @@ const varyForegroundOpacity = keyframes`
     opacity: 100%;
   }
   100% {
-    opacity: 40%;
+    opacity: 60%;
   }
 `;
 

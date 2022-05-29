@@ -4,21 +4,6 @@ import { range } from "../utils/util";
 import FlowerCenter from "./FlowerCenter";
 import Petal from "./Petal";
 
-// Glowing text:
-// text-shadow: 0px 0px 40px white,
-// 0px 0px 8px white,
-// 0px 0px 16px white;
-
-interface ContainerProps {
-  size: number;
-}
-
-const FlowerContainer = styled.div<{ size: number }>`
-  height: ${(props) => props.size}vmin;
-  width: ${(props) => props.size}vmin;
-  position: relative;
-`;
-
 interface FlowerProps {
   size: number;
   numPetals: number;
@@ -39,21 +24,37 @@ export default function Flower({
       Math.random() > 0.5 ? 180 + baseAngle / 2 : 180 - baseAngle / 2;
   }
 
+  const FlowerAreaContainer = styled.div`
+    position: relative;
+    flex-grow: 1;
+  `;
+
+  const FlowerContainer = styled.div`
+    height: ${size}vmin;
+    width: ${size}vmin;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  `;
+
   return (
-    <FlowerContainer size={size} onMouseEnter={() => setAnimated(true)}>
-      <FlowerCenter size={size / 3} animated={animated} />
-      {animated && (
-        <>
-          {range(0, numPetals).map((i) => (
-            <Petal
-              size={size / 2}
-              angle={(i * 360) / numPetals}
-              numPetals={numPetals}
-              petalShape={petalShape}
-            />
-          ))}
-        </>
-      )}
-    </FlowerContainer>
+    <FlowerAreaContainer onMouseEnter={() => setAnimated(true)}>
+      <FlowerContainer>
+        <FlowerCenter size={size / 3} animated={animated} />
+        {animated && (
+          <>
+            {range(0, numPetals).map((i) => (
+              <Petal
+                size={size / 2}
+                angle={(i * 360) / numPetals}
+                numPetals={numPetals}
+                petalShape={petalShape}
+              />
+            ))}
+          </>
+        )}
+      </FlowerContainer>
+    </FlowerAreaContainer>
   );
 }

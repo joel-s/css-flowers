@@ -1,15 +1,24 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 
-const varyOpacity = keyframes`
-  from {
+const varyBackgroundColor = keyframes`
+0%, 50% {
+  background-color: black;
+}
+50%, 100% {
+  background-color: white;
+}
+`;
+
+const varyForegroundOpacity = keyframes`
+  0% {
     opacity: 100%;
   }
-  to {
+  100% {
     opacity: 40%;
   }
 `;
 
-const varyColor = keyframes`
+const varyForegroundColor = keyframes`
   0% {
     background-color: hsl(0, 60%, 50%);
   }
@@ -28,6 +37,7 @@ interface PetalProps {
   petalShape: string;
   openDelay: number; // seconds
   startAngle: number;
+  animated: boolean;
 }
 
 export default function Petal({
@@ -37,41 +47,57 @@ export default function Petal({
   petalShape,
   openDelay,
   startAngle,
-}: PetalProps): JSX.Element {
-  const spin = keyframes`
+  animated,
+}: PetalProps): JSX.Element | null {
+  const containerTransformKeyframes = keyframes`
     from {
-      transform: rotateZ(${startAngle}deg) translateY(-1vmin)
+      transform: scale(0) rotateZ(${angle}deg) translateY(-1vmin)
         scaleX(${Math.tan(Math.PI / numPetals)}) rotateZ(45deg);
     }
     to {
-      transform: rotateZ(${angle}deg) translateY(-1vmin)
+      transform: scale(1) rotateZ(${angle}deg) translateY(-1vmin)
         scaleX(${Math.tan(Math.PI / numPetals)}) rotateZ(45deg);
     }
   `;
 
-  const PetalBackground = styled.div`
+  const PetalContainer = styled.div`
     position: absolute;
     top: 0;
     left: 0;
-    background-color: white;
-    border-radius: ${petalShape};
     width: ${size}vmin;
     height: ${size}vmin;
     transform-origin: bottom right;
-    animation: ${spin} 1s cubic-bezier(0.6, 0, 0.4, 1.2)
-      ${openDelay + Math.random() * 5}s both;
+    animation: ${containerTransformKeyframes} 1s cubic-bezier(0.6, 0, 0.4, 1.2)
+      ${(angle * numPetals) / 2000}s both;
+  `;
+
+  const PetalBackground = styled.div`
+    border-radius: ${petalShape};
+    width: ${size}vmin;
+    height: ${size}vmin;
+    /* animation is identical to flower center background animation */
+    /* 1st animation takes twice as long as varyForegroundOpacity animation    */
+    animation: ${varyBackgroundColor} 8s ease infinite alternate-reverse;
   `;
 
   const PetalForegroundInner = styled.div`
     height: 100%;
     border-radius: ${petalShape};
-    animation: ${varyColor} 5.5s ease infinite -${numPetals}s alternate-reverse,
-      ${varyOpacity} 4s ease infinite alternate-reverse;
+    /* both animations are identical to flower center foreground animation */
+    /* 1st animation takes half as long as varyBackgroundColor animation */
+    animation: ${varyForegroundOpacity} 4s ease infinite alternate-reverse,
+      ${varyForegroundColor} 5.5s ease infinite alternate-reverse;
   `;
 
+  if (!animated) {
+    return null;
+  }
+
   return (
-    <PetalBackground>
-      <PetalForegroundInner />
-    </PetalBackground>
+    <PetalContainer>
+      <PetalBackground>
+        <PetalForegroundInner />
+      </PetalBackground>
+    </PetalContainer>
   );
 }

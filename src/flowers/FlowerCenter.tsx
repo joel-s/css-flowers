@@ -13,6 +13,8 @@ const fadeIn = keyframes`
   }
 `;
 
+// -- Always rendered --
+
 const OuterContainer = styled.div<{ size: number }>`
   height: ${(props) => props.size}vmin;
   width: ${(props) => props.size}vmin;
@@ -23,7 +25,10 @@ const OuterContainer = styled.div<{ size: number }>`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  animation: ${fadeIn} 1s both;
 `;
+
+// -- Only rendered when animated is true --
 
 const OpacityContainer = styled.div`
   height: 100%;

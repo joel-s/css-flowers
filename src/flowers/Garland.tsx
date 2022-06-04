@@ -9,6 +9,7 @@ const GarlandDiv = styled.div`
   justify-content: space-evenly;
   width: 100%;
   height: 20vmin;
+  overflow: visible;
 `;
 
 interface GarlandProps {

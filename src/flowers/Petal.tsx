@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import {
   backgroundColorAnimation,
   foregroundOpacityAndColorAnimation,
@@ -25,6 +25,18 @@ const containerTransformKeyframes = (
   }
 `;
 
+const petalContainerAnimation = css<{ angle: number; numPetals: number }>`
+  animation: ${(props) =>
+      containerTransformKeyframes(props.angle, props.numPetals)}
+    1s cubic-bezier(0.6, 0, 0.4, 1.2)
+    ${(props) => (props.angle * props.numPetals) / 2000}s both;
+`;
+
+// animation: ${({angle, numPetals}) =>
+// containerTransformKeyframes(angle, numPetals)}
+// 1s cubic-bezier(0.6, 0, 0.4, 1.2)
+// ${(props) => (props.angle * props.numPetals) / 2000}s both;
+
 const PetalContainer = styled.div<{
   size: number;
   angle: number;
@@ -36,10 +48,7 @@ const PetalContainer = styled.div<{
   width: ${(props) => props.size}vmin;
   height: ${(props) => props.size}vmin;
   transform-origin: bottom right;
-  animation: ${(props) =>
-      containerTransformKeyframes(props.angle, props.numPetals)}
-    1s cubic-bezier(0.6, 0, 0.4, 1.2)
-    ${(props) => (props.angle * props.numPetals) / 2000}s both;
+  ${petalContainerAnimation}
 `;
 
 const PetalBackground = styled.div<{ size: number; petalShape: string }>`

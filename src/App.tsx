@@ -1,15 +1,17 @@
 import styled, { createGlobalStyle } from "styled-components";
 import Garland from "./flowers/Garland";
-import { repeatArray } from "./utils/util";
 
 const GlobalStyle = createGlobalStyle`
   html, body {
     background-color: hsl(100, 100%, 0%);
+    overflow: hidden;
   }
 `;
 
 const Background = styled.div`
   padding: 10vmin;
+  overflow: hidden;
+  min-height: 100vh;
 `;
 
 const shapeArray = [

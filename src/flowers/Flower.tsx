@@ -22,8 +22,11 @@ const zoomFrames = keyframes`
   }
 `;
 
+const GO_AWAY_DURATION = 500; // ms
+
 const goAwayAnimation = css`
-  animation: ${zoomFrames} 1s ease-in both, ${fadeFrames} 1s ease-in both;
+  animation: ${zoomFrames} ${GO_AWAY_DURATION}ms both,
+    ${fadeFrames} ${GO_AWAY_DURATION}ms both;
 `;
 
 const FlowerAreaContainer = styled.div`
@@ -63,14 +66,14 @@ export default function Flower({
     setKeyNum((value) => value + 1);
   };
 
+  const containerProps = {};
+
   return (
     <FlowerAreaContainer
-      onMouseEnter={() => {
-        setBloom(true);
-      }}
+      onMouseEnter={() => setBloom(true)}
       onClick={() => {
         setGoAway(true);
-        setTimeout(reset, 1000);
+        setTimeout(reset, GO_AWAY_DURATION);
       }}
     >
       <FlowerContainer size={size} goAway={goAway} key={keyNum}>
